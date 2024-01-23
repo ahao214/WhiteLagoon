@@ -56,8 +56,8 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Update(Villa obj)
         {
-            
-            if (ModelState.IsValid && obj.Id> 0)
+
+            if (ModelState.IsValid && obj.Id > 0)
             {
                 _db.Villas.Update(obj);
                 _db.SaveChanges();
@@ -69,7 +69,7 @@ namespace WhiteLagoon.Web.Controllers
         public IActionResult Delete(int villaId)
         {
             Villa? obj = _db.Villas.FirstOrDefault(u => u.Id == villaId);
-            if (obj == null)
+            if (obj is null)
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -80,10 +80,10 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Villa obj)
         {
-
-            if (ModelState.IsValid && obj.Id > 0)
+            Villa? objFromDb = _db.Villas.FirstOrDefault(u => u.Id == obj.Id);
+            if (objFromDb is not null)
             {
-                _db.Villas.Update(obj);
+                _db.Villas.Remove(obj);
                 _db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
