@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using WhiteLagoon.Domain.Entities;
 
 namespace WhiteLagoon.Infrastructure.Data
 {
@@ -8,6 +10,8 @@ namespace WhiteLagoon.Infrastructure.Data
         {
 
         }
+
+        public DbSet<Villa> Villas { get; set; }
 
     }
 }

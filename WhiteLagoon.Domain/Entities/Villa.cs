@@ -1,6 +1,9 @@
 ﻿
 namespace WhiteLagoon.Domain.Entities
 {
+    /// <summary>
+    /// 别墅实体
+    /// </summary>
     public class Villa
     {
         public int Id { get; set; }
