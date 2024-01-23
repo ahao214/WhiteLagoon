@@ -28,7 +28,7 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Create(Villa obj)
         {
-            if(obj.Name == obj.Description)
+            if (obj.Name == obj.Description)
             {
                 ModelState.AddModelError("name", "The description cannot exactly match the Name");
             }
@@ -40,17 +40,33 @@ namespace WhiteLagoon.Web.Controllers
             }
             return View();
         }
-        
+
 
         public IActionResult Update(int villaId)
         {
             Villa? obj = _db.Villas.FirstOrDefault(u => u.Id == villaId);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
             return View(obj);
         }
+
+
+        [HttpPost]
+        public IActionResult Update(Villa obj)
+        {
+            
+            if (ModelState.IsValid && obj.Id> 0)
+            {
+                _db.Villas.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+
 
     }
 }
