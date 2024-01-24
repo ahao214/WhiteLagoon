@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using WhiteLagoon.Domain.Entities;
 
-namespace WhiteLagoon.Application.Interface
+namespace WhiteLagoon.Application.Common.Interface
 {
     public interface IVillaRepository
     {

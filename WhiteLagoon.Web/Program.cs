@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WhiteLagoon.Application.Interface;
+using WhiteLagoon.Application.Common.Interface;
 using WhiteLagoon.Infrastructure.Data;
 using WhiteLagoon.Infrastructure.Repository;
 

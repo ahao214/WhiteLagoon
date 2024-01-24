@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 using WhiteLagoon.Application.Common.Interface;
 using WhiteLagoon.Domain.Entities;
@@ -6,23 +7,24 @@ using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Infrastructure.Repository
 {
-    public class VillaRepository : IVillaRepository
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
-
-        public VillaRepository(ApplicationDbContext db)
+        internal DbSet<T> dbSet;
+        public BaseRepository(ApplicationDbContext db)
         {
             _db = db;
+            dbSet = _db.Set<T>();
         }
 
-        public void Add(Villa entity)
+        public void Add(T entity)
         {
-            _db.Add(entity);
+            dbSet.Add(entity);
         }
 
-        public Villa Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
-            IQueryable<Villa> query = _db.Set<Villa>();
+            IQueryable<T> query = dbSet;
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -37,9 +39,9 @@ namespace WhiteLagoon.Infrastructure.Repository
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<Villa> GetAll(Expression<Func<Villa, bool>>? filter = null, string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
-            IQueryable<Villa> query = _db.Set<Villa>();
+            IQueryable<T> query = dbSet;
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -54,19 +56,9 @@ namespace WhiteLagoon.Infrastructure.Repository
             return query.ToList();
         }
 
-        public void Remove(Villa entity)
+        public void Remove(T entity)
         {
-            _db.Remove(entity);
-        }
-
-        public void Save()
-        {
-            _db.SaveChanges();
-        }
-
-        public void Update(Villa entity)
-        {
-            _db.Villas.Update(entity);
+            dbSet.Remove(entity);
         }
     }
 }
