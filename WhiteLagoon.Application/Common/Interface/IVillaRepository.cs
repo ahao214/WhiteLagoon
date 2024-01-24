@@ -6,6 +6,6 @@ namespace WhiteLagoon.Application.Common.Interface
     public interface IVillaRepository : IBaseRepository<Villa>
     {
         void Update(Villa entity);
-        void Save();
+        //void Save();
     }
 }
