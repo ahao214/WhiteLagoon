@@ -15,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 
 
 // 自定义注册服务
-builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 
