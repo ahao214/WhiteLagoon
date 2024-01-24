@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application.Interface;
 using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 
 
 // 自定义注册服务
-
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
 
 

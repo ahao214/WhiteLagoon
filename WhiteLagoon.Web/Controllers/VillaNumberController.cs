@@ -97,7 +97,6 @@ namespace WhiteLagoon.Web.Controllers
                 Text = u.Name,
                 Value = u.Id.ToString()
             });
-            TempData["error"] = "The villa number could not be updated";
             return View(villaNumberVM);
         }
 
