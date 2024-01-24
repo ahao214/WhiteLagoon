@@ -85,7 +85,7 @@ namespace WhiteLagoon.Web.Controllers
             Villa? objFromDb = _db.Villas.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDb is not null)
             {
-                _db.Villas.Remove(obj);
+                _db.Villas.Remove(objFromDb);
                 _db.SaveChanges();
                 TempData["success"] = "The villa has been deleted successfully";
                 return RedirectToAction(nameof(Index));

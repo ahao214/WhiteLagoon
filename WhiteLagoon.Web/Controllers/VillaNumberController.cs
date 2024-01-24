@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 
@@ -15,20 +16,27 @@ namespace WhiteLagoon.Web.Controllers
 
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
-            return View(villas);
+            var villaNumbers = _db.VillaNumbers.ToList();
+            return View(villaNumbers);
         }
 
 
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> list = _db.Villas.ToList().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+            //ViewData["villaList"] = list;    
+            ViewBag.VillaList = list;
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(VillaNumber obj)
         {
-            
+
             if (ModelState.IsValid)
             {
                 _db.VillaNumbers.Add(obj);
@@ -82,7 +90,7 @@ namespace WhiteLagoon.Web.Controllers
             VillaNumber? objFromDb = _db.VillaNumbers.FirstOrDefault(u => u.VillaNo == obj.VillaId);
             if (objFromDb is not null)
             {
-                _db.VillaNumbers.Remove(obj);
+                _db.VillaNumbers.Remove(objFromDb);
                 _db.SaveChanges();
                 TempData["success"] = "The villa has been deleted successfully";
                 return RedirectToAction(nameof(Index));
