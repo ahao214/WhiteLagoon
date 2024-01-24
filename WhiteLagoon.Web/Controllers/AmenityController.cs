@@ -20,7 +20,7 @@ namespace WhiteLagoon.Web.Controllers
 
         public IActionResult Index()
         {
-            var amenities = _unitOfWork.Amenity.GetAll(includeProperties: "Amenity");
+            var amenities = _unitOfWork.Amenity.GetAll(includeProperties: "Villa");
             return View(amenities);
         }
 
