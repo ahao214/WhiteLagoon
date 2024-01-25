@@ -27,7 +27,11 @@ builder.Services.ConfigureApplicationCookie(option =>
 
 });
 
-
+// Modify default password RequiredLength
+builder.Services.Configure<IdentityOptions>(option =>
+{
+    option.Password.RequiredLength = 6;
+});
 
 // 自定义注册服务
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
