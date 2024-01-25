@@ -43,6 +43,7 @@ namespace WhiteLagoon.Web.Controllers
 
         public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
         {
+            Thread.Sleep(2000);
             var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
             foreach (var villa in villaList)
             {

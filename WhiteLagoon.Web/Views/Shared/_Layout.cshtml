@@ -66,6 +66,7 @@
     </header>
     <div class="">
         <main role="main">
+            <div class="loading spinner" style="display:none;"></div>
             @* 提示信息链接页 *@
             <partial name="_Notification" />
             @RenderBody()
@@ -85,7 +86,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @* jquery-ajax-unobtrusive@3.2.6 *@
-    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    @* <script src="~/js/jquery.unobtrusive-ajax.min.js"></script> *@
 
     <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" asp-append-version="true"></script>
 
