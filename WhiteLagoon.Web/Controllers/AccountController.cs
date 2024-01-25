@@ -34,10 +34,15 @@ namespace WhiteLagoon.Web.Controllers
             return View(loginVM);
         }
 
-        public async Task<ActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
         public IActionResult Register()
