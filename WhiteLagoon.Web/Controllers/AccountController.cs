@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WhiteLagoon.Application.Common.Interface;
 using WhiteLagoon.Domain.Entities;
+using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers
 {
@@ -12,7 +13,7 @@ namespace WhiteLagoon.Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(IUnitOfWork unitOfWork,UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager,RoleManager<IdentityRole> roleManager)
+        public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -20,9 +21,15 @@ namespace WhiteLagoon.Web.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
-            return View();
+            returnUrl ??= Url.Content("~/");
+            LoginVM loginVM = new()
+            {
+                RedirectUrl = returnUrl
+            };
+
+            return View(loginVM);
         }
 
         public IActionResult Register()
