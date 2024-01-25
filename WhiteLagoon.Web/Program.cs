@@ -19,6 +19,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 
+// Configure Application Cookie
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.AccessDeniedPath = "/Account/AccessDenied";
+    option.LoginPath = "/Account/Login";
+
+});
+
+
+
 // 自定义注册服务
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
