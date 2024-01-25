@@ -5,6 +5,7 @@ using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Web.Controllers
 {
+    //[Authorize]
     public class VillaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
