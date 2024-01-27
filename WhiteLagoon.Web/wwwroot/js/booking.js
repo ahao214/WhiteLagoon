@@ -1,14 +1,16 @@
 ﻿var dataTable;
 
 $(document).ready(function () {
-    loadDataTable();
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    loadDataTable(status);
 });
 
 
-function loadDataTable() {
+function loadDataTable(status) {
     dataTable = $('#tblBookings').DataTable({
         "ajax": {
-            url: '/booking/getall'
+            url: '/booking/getall?status=' + status
         },
         "columns": [
             { data: 'id', "width": "5%" },
@@ -18,7 +20,7 @@ function loadDataTable() {
             { data: 'status', "width": "10%" },
             { data: 'checkInDate', "width": "10%" },
             { data: 'nights', "width": "10%" },
-            { data: 'totalCost', render: $.fn.dataTable.render.number(',','.',2), "width": "10%" },
+            { data: 'totalCost', render: $.fn.dataTable.render.number(',', '.', 2), "width": "10%" },
             {
                 data: 'id',
                 "render": function (data) {
