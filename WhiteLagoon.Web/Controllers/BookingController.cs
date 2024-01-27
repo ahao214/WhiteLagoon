@@ -114,6 +114,37 @@ namespace WhiteLagoon.Web.Controllers
             return View(bookingFromDb);
         }
 
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult CheckIn(Booking booking)
+        {
+            _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCheckedIn, booking.VillaNo);
+            _unitOfWork.Save();
+            TempData["Success"] = "Booking Updated Successfully";
+            return RedirectToAction(nameof(BookingDetails), new { bookingid = booking.Id });
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult CheckOut(Booking booking)
+        {
+            _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCompleted, booking.VillaNo);
+            _unitOfWork.Save();
+            TempData["Success"] = "Booking Completed Successfully";
+            return RedirectToAction(nameof(BookingDetails), new { bookingid = booking.Id });
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult CancelBooking(Booking booking)
+        {
+            _unitOfWork.Booking.UpdateStatus(booking.Id, SD.StatusCancelled, 0);
+            _unitOfWork.Save();
+            TempData["Success"] = "Booking Cancelled Successfully";
+            return RedirectToAction(nameof(BookingDetails), new { bookingid = booking.Id });
+        }
 
         private List<int> AssignAvaliableVillaNumberByVilla(int villaId)
         {
