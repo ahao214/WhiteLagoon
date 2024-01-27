@@ -18,6 +18,7 @@ namespace WhiteLagoon.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -102,6 +103,7 @@ namespace WhiteLagoon.Web.Controllers
         #region API Calls
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             IEnumerable<Booking> objBookings;
