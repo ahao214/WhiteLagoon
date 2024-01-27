@@ -104,10 +104,32 @@ namespace WhiteLagoon.Web.Controllers
         public IActionResult BookingDetails(int bookingId)
         {
             Booking bookingFromDb = _unitOfWork.Booking.Get(u => u.Id == bookingId, includeProperties: "User,Villa");
+
+            if (bookingFromDb.VillaNo == 0 && bookingFromDb.Status == SD.StatusApproved)
+            {
+                var avaliableVillaNumber = AssignAvaliableVillaNumberByVilla(bookingFromDb.VillaId);
+                bookingFromDb.VillaNumbers = _unitOfWork.VillaNumber.GetAll(u => u.VillaId == bookingFromDb.VillaId && avaliableVillaNumber.Any(x => x == u.VillaNo)).ToList();
+            }
+
             return View(bookingFromDb);
         }
 
 
+        private List<int> AssignAvaliableVillaNumberByVilla(int villaId)
+        {
+            List<int> availableVillaNumbers = new();
+            var villaNumbers = _unitOfWork.VillaNumber.GetAll(u => u.VillaId == villaId);
+
+            var checkedInVilla = _unitOfWork.Booking.GetAll(u => u.VillaId == villaId && u.Status == SD.StatusCheckedIn).Select(u => u.VillaNo);
+            foreach (var villaNumber in villaNumbers)
+            {
+                if (!checkedInVilla.Contains(villaNumber.VillaNo))
+                {
+                    availableVillaNumbers.Add(villaNumber.VillaNo);
+                }
+            }
+            return availableVillaNumbers;
+        }
 
 
         #region API Calls
