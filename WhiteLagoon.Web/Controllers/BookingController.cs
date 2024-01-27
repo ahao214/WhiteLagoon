@@ -91,7 +91,7 @@ namespace WhiteLagoon.Web.Controllers
                 //    _unitOfWork.Save();
                 //}
 
-                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved);
+                _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved, 0);
                 _unitOfWork.Booking.UpdateStripePaymentID(bookingFromDb.Id, "stripesessionidGuid", "stripepaymentidGuid");
 
                 _unitOfWork.Save();
