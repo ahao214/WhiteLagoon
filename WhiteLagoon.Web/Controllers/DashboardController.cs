@@ -51,7 +51,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
 
-        public async Task<IActionResult> GetRevenueChartDataAsync()
+        public async Task<IActionResult> GetRevenueChartData()
         {
             var totalBookings = _unitOfWork.Booking.GetAll(u => u.Status != SD.StatusPending || u.Status == SD.StatusCancelled);
 
