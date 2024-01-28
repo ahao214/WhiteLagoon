@@ -49,6 +49,24 @@ namespace WhiteLagoon.Web.Controllers
             return Json(GetRadialCartDataModel(totalUsers.Count(), countByCurrentMonth, countByPreviousMonth));
         }
 
+        public async Task<IActionResult> GetBookingPieChartData()
+        {
+            var totalBookings = _unitOfWork.Booking.GetAll(u => u.BookingDate >= DateTime.Now.AddDays(-30) && (u.Status != SD.StatusPending || u.Status == SD.StatusCancelled));
+            var customerWithOneBooking = totalBookings.GroupBy(b => b.UserId).Where(x => x.Count() == 1).Select(x => x.Key).ToList();
+
+            int bookingsByNewCustomer = customerWithOneBooking.Count();
+            int bookingsByReturningCustomer = totalBookings.Count() - bookingsByNewCustomer;
+
+            PieChartVM pieChartVM = new PieChartVM()
+            {
+                Labels = new string[] { "New Customer Bookings", "Returning Customer Bookings" },
+                Series = new decimal[] { bookingsByNewCustomer, bookingsByReturningCustomer }
+            };
+            return Json(pieChartVM);
+        }
+
+
+
 
 
         public async Task<IActionResult> GetRevenueChartData()
