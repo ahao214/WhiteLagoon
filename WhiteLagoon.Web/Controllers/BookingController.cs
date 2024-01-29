@@ -198,7 +198,9 @@ namespace WhiteLagoon.Web.Controllers
             table.TableFormat.Paddings.Bottom = 7f;
             table.TableFormat.Borders.Horizontal.LineWidth = 1f;
 
-            table.ResetCells(2, 4);
+
+            int rows = bookingFromDb.VillaNo > 0 ? 3 : 2;
+            table.ResetCells(rows, 4);
             WTableRow row0 = table.Rows[0];
 
             row0.Cells[0].AddParagraph().AppendText("NIGHTS");
