@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WhiteLagoon.Application.Common.Interface;
+using WhiteLagoon.Application.Common.Utility;
+using WhiteLagoon.Application.Services.Interface;
+using WhiteLagoon.Application.Common.DTO;
 
 namespace WhiteLagoon.Application.Services.Implementation
 {
-    public class DashboradService
+    public class DashboradService : IDashboradService
     {
 
     }
 }
+
