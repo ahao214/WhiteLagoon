@@ -7,22 +7,19 @@ namespace WhiteLagoon.Application.Services.Implementation
 {
     public class DashboradService : IDashboradService
     {
+
         private readonly IUnitOfWork _unitOfWork;
+        static int previousMonth = DateTime.Now.Month == 1 ? 12 : DateTime.Now.Month - 1;
+        readonly DateTime previousMonthStartDate = new(DateTime.Now.Year, previousMonth, 1);
+        readonly DateTime currentMonthStartDate = new(DateTime.Now.Year, DateTime.Now.Month, 1);
 
         public DashboradService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        private readonly IUnitOfWork _unitOfWork;
-        static int previousMonth = DateTime.Now.Month == 1 ? 12 : DateTime.Now.Month - 1;
-        readonly DateTime previousMonthStartDate = new(DateTime.Now.Year, previousMonth, 1);
-        readonly DateTime currentMonthStartDate = new(DateTime.Now.Year, DateTime.Now.Month, 1);
-        public DashboardService(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-        public async Task<PieChartDto> GetBookingPieChartData()
+
+        public async Task<PieChartDTO> GetBookingPieChartData()
         {
             var totalBookings = _unitOfWork.Booking.GetAll(u => u.BookingDate >= DateTime.Now.AddDays(-30) &&
            (u.Status != SD.StatusPending || u.Status == SD.StatusCancelled));
@@ -32,16 +29,16 @@ namespace WhiteLagoon.Application.Services.Implementation
             int bookingsByNewCustomer = customerWithOneBooking.Count();
             int bookingsByReturningCustomer = totalBookings.Count() - bookingsByNewCustomer;
 
-            PieChartDto PieChartDto = new()
+            PieChartDTO PieChartDTO = new()
             {
                 Labels = new string[] { "New Customer Bookings", "Returning Customer Bookings" },
                 Series = new decimal[] { bookingsByNewCustomer, bookingsByReturningCustomer }
             };
 
-            return PieChartDto;
+            return PieChartDTO;
         }
 
-        public async Task<LineChartDto> GetMemberAndBookingLineChartData()
+        public async Task<LineChartDTO> GetMemberAndBookingLineChartData()
         {
             var bookingData = _unitOfWork.Booking.GetAll(u => u.BookingDate >= DateTime.Now.AddDays(-30) &&
              u.BookingDate.Date <= DateTime.Now)
@@ -97,16 +94,16 @@ namespace WhiteLagoon.Application.Services.Implementation
                 },
             };
 
-            LineChartDto LineChartDto = new()
+            LineChartDTO LineChartDTO = new()
             {
                 Categories = categories,
                 Series = chartDataList
             };
 
-            return LineChartDto;
+            return LineChartDTO;
         }
 
-        public async Task<RadialBarChartDto> GetRegisteredUserChartData()
+        public async Task<RadialBarChartDTO> GetRegisteredUserChartData()
         {
 
             var totalUsers = _unitOfWork.User.GetAll();
@@ -121,7 +118,7 @@ namespace WhiteLagoon.Application.Services.Implementation
             return SD.GetRadialCartDataModel(totalUsers.Count(), countByCurrentMonth, countByPreviousMonth);
         }
 
-        public async Task<RadialBarChartDto> GetRevenueChartData()
+        public async Task<RadialBarChartDTO> GetRevenueChartData()
         {
             var totalBookings = _unitOfWork.Booking.GetAll(u => u.Status != SD.StatusPending
           || u.Status == SD.StatusCancelled);
@@ -137,7 +134,7 @@ namespace WhiteLagoon.Application.Services.Implementation
             return SD.GetRadialCartDataModel(totalRevenue, countByCurrentMonth, countByPreviousMonth);
         }
 
-        public async Task<RadialBarChartDto> GetTotalBookingRadialChartData()
+        public async Task<RadialBarChartDTO> GetTotalBookingRadialChartData()
         {
             var totalBookings = _unitOfWork.Booking.GetAll(u => u.Status != SD.StatusPending
           || u.Status == SD.StatusCancelled);
