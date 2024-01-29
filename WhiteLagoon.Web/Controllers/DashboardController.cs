@@ -57,7 +57,7 @@ namespace WhiteLagoon.Web.Controllers
             int bookingsByNewCustomer = customerWithOneBooking.Count();
             int bookingsByReturningCustomer = totalBookings.Count() - bookingsByNewCustomer;
 
-            PieChartVM pieChartVM = new PieChartVM()
+            PieChartDTO pieChartVM = new PieChartDTO()
             {
                 Labels = new string[] { "New Customer Bookings", "Returning Customer Bookings" },
                 Series = new decimal[] { bookingsByNewCustomer, bookingsByReturningCustomer }
@@ -114,7 +114,7 @@ namespace WhiteLagoon.Web.Controllers
                 },
             };
 
-            LineChartVM lineChartVM = new LineChartVM()
+            LineChartDTO lineChartVM = new LineChartDTO()
             {
                 Categories = categories,
                 Series = chartDataList
