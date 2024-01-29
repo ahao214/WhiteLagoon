@@ -89,7 +89,16 @@ namespace WhiteLagoon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Amenity.Update(amenityVM.Amenity);
+                Amenity amenity = _unitOfWork.Amenity.Get(u => u.Id == amenityVM.Amenity.Id);
+                if(amenity.Name .ToLower ().Contains ("special"))
+                {
+                    amenityVM.Amenity.Description = amenity.Description;
+                }
+                else
+                {
+                    _unitOfWork.Amenity.Update(amenityVM.Amenity);
+                }
+
                 _unitOfWork.Save();
                 TempData["success"] = "The amenity has been updated successfully";
                 return RedirectToAction(nameof(Index));
