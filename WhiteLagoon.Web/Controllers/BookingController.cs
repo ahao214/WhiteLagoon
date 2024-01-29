@@ -6,6 +6,7 @@ using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIORenderer;
 using Syncfusion.Drawing;
+using Syncfusion.Pdf;
 using System.ComponentModel;
 using System.Security.Claims;
 using WhiteLagoon.Application.Common.Interface;
@@ -142,7 +143,7 @@ namespace WhiteLagoon.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult GenerateInvoice(int id,string downloadType)
+        public IActionResult GenerateInvoice(int id, string downloadType)
         {
             string basePath = _webHostEnvironment.WebRootPath;
             WordDocument document = new WordDocument();
@@ -254,7 +255,22 @@ namespace WhiteLagoon.Web.Controllers
             document.Save(stream, FormatType.Docx);
             stream.Position = 0;
 
-            return File(stream, "application/docx", "BookingDetails.docx");
+            if (downloadType == "word")
+            {
+
+                document.Save(stream, FormatType.Docx);
+                stream.Position = 0;
+
+                return File(stream, "application/docx", "BookingDetails.docx");
+            }
+            else
+            {
+                PdfDocument pdfDocument = renderer.ConvertToPDF(document);
+                pdfDocument.Save(stream);
+                stream.Position = 0;
+
+                return File(stream, "application/pdf", "BookingDetails.pdf");
+            }
         }
 
 
