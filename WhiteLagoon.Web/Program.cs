@@ -42,7 +42,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDashboradService, DashboradService>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IVillaService, VillaService>();
-
+builder.Services.AddScoped<IVillaNumberService, VillaNumberService>();
 
 
 
