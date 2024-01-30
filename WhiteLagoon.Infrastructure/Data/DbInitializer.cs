@@ -47,12 +47,13 @@ namespace WhiteLagoon.Infrastructure.Data
                         NormalizedUserName = "ADMIN@GMAIL.COM",
                         NormalizedEmail = "ADMIN@GMAIL.COM",
                         PhoneNumber = "110",
-                    }, "Admin123*");
+                    }, "Admin123*").GetAwaiter().GetResult();
+
                     ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
                     _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
                 }
 
-               
+
             }
             catch (Exception ex)
             {
