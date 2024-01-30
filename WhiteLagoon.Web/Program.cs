@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Syncfusion.Licensing;
 using WhiteLagoon.Application.Common.Interface;
+using WhiteLagoon.Application.Services.Implementation;
 using WhiteLagoon.Application.Services.Interface;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
@@ -39,7 +40,7 @@ builder.Services.Configure<IdentityOptions>(option =>
 // 自定义注册服务
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDashboradService, DashboradService>();
-
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 
 
@@ -66,9 +67,21 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+SeedDatabase();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInit = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInit.Initializer();
+    }
+
+}
